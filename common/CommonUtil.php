@@ -161,4 +161,17 @@ class CommonUtil
         return preg_match("/^(((13[0-9]{1})|(14[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/", $mobile);
     }
 
+    public static function GetChildren($parentId=0,$data=[],$parentKey="parentId",$key="id",$childKey="children"){
+        $result=[];
+        foreach ($data as $k=>$v){
+            if($v[$parentKey]==$parentId){
+                $temp=$v;
+                unset($data[$k]);
+                $temp[$childKey]=self::GetChildren($temp[$key],$data,$parentKey,$key,$childKey);
+                $result[]=$temp;
+            }
+        }
+        return $result;
+    }
+
 }
